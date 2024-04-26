@@ -2,6 +2,7 @@ package Model;
 
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -14,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
@@ -30,17 +32,31 @@ public class SUser {
 	@Column(nullable = false)
 	private String mdp;
 
+	
+	//hethye el courses elli el user enrolled fihom
+	
 	 @ManyToMany(fetch = FetchType.LAZY,
 		      cascade = {
 		          CascadeType.PERSIST,
 		          CascadeType.MERGE
 		      })
-		  @JoinTable(name = "user_courses",
+		  @JoinTable(name = "user_enrolled_courses",
 		        joinColumns = { @JoinColumn(name = "user_id") },
 		        inverseJoinColumns = { @JoinColumn(name = "id_cc") })
 	    private Set<Course> courses = new HashSet<>();
+	 
+	 //hathom el courses mte3 el user haka
+	 
+	 @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	    private List<Course> Owncourses;
+
 	
-	
+	public List<Course> getOwncourses() {
+		return Owncourses;
+	}
+	public void setOwncourses(List<Course> owncourses) {
+		Owncourses = owncourses;
+	}
 	public Set<Course> getCourses() {
 		return courses;
 	}

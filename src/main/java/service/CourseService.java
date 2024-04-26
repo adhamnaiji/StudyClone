@@ -35,5 +35,10 @@ public class CourseService {
 	  public void DeleteCourseById(int id) {
 	        repository.deleteCourseById(id);
 	    }
+	  
+	  
+	  public List<Course> getCoursesCreatedByUser(SUser user) {
+	        return user.getOwncourses();
+	    }
 	
 }

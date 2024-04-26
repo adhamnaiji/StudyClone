@@ -26,6 +26,11 @@ public class SUserService {
         return userrepository.findByEmail(email);
     }
 	
+	public SUser findByID(int id) {
+        return userrepository.findByID(id);
+    }
+	
+	
 	public List<SUser> findAllUsers() {
         return userrepository.findAllUsers();
     }
@@ -54,4 +59,14 @@ public class SUserService {
     public void DeleteuserById(int id) {
     	userrepository.deleteUserById(id);
     }
+    
+    
+    public List<Course> getCoursesCreatedByUser(SUser user) {
+        return user.getOwncourses();
+    }
+    /*
+    public List<Course> getUserOwnCourses(String mail){
+    	return userrepository.findUserOwnCourses(mail);
+    	
+    }*/
 }
