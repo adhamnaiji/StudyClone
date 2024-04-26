@@ -25,6 +25,10 @@ public class SUserService {
 	public Optional<SUser> findByEmail(String email) {
         return userrepository.findByEmail(email);
     }
+	
+	public List<SUser> findAllUsers() {
+        return userrepository.findAllUsers();
+    }
 
 	
     public void addCourseToUser(String mail, int courseId) {
@@ -45,5 +49,9 @@ public class SUserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         return user.getCourses();
+    }
+    
+    public void DeleteuserById(int id) {
+    	userrepository.deleteUserById(id);
     }
 }

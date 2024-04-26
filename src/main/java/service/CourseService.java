@@ -28,5 +28,12 @@ public class CourseService {
 
 	        return course.getUsers();
 	    }
+	  
+	  public List<Course> getAllCourses(){
+		  return repository.getAllCourses();  }
+	  
+	  public void DeleteCourseById(int id) {
+	        repository.deleteCourseById(id);
+	    }
 	
 }
