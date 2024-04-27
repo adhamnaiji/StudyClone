@@ -2,9 +2,16 @@ package service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import Model.Course;
@@ -18,6 +25,23 @@ import repository.SUserRepository;
 
 @Service
 public class SUserService {
+	
+	
+	@Autowired
+	private JavaMailSender mailSender;
+
+	public void sendEmail(String recipientEmail, String prénom ,String nom,String mdp ) {
+	  SimpleMailMessage message = new SimpleMailMessage();
+	  message.setFrom("extraaccforff1@gmail.com");
+	  message.setTo(recipientEmail);
+	  message.setSubject("Ré-initialisation du Mot De Passe  ");
+	  message.setText("chèr " + prénom+" " + nom + ", Nous avons recu une demande de réinitialisation du mot de passe \n" +
+              "Pour garantir la sécurité de vos données , nous enoyons ce mail. \n\n" +
+              " votre mot de passe temporaire est: "+ mdp + " \n vous pouvez le changer après d'authentifier.\n\n" +
+              "Adham Naiji");
+	  mailSender.send(message);
+	}
+	
 	
 	@Autowired
     private SUserRepository userrepository;
@@ -162,6 +186,37 @@ if(updateduser.getInstagram()!=null) {
         }
     }
     
+    
+    
+    public static String generateRandomString(int length) {
+        int leftLimit = 48; // '0'
+        int rightLimit = 122; // 'z'
+        Random random = new Random();
+
+        StringBuilder builder = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int randomInt = random.nextInt(rightLimit - leftLimit) + leftLimit;
+            builder.append((char) randomInt);
+        }
+        return builder.toString();
+    }
+	
+    public SUser resetPassword(String Email) throws UserNotFoundException {
+
+        
+        Optional<SUser> optionalUser = userrepository.findByEmail(Email);
+
+        if (optionalUser.isEmpty()) {
+            throw new UserNotFoundException("User not found. Please check your ID and try again.");
+        }
+
+        SUser user = optionalUser.get();
+
+	  
+        sendEmail(user.getEmail(), user.getPrenom(),user.getNom(),user.getMdp() );
+
+        return userrepository.save(user);
+    }
     
     
     

@@ -104,6 +104,19 @@ public class SUserController {
 	    public SUser updateUser(@PathVariable int userId, @RequestBody SUser updateduser) {
 	        return service.updateUser(userId, updateduser);
 	    }
+	 
+	 //end password
+	 @PostMapping("user/reset-password/{id}")
+	 public ResponseEntity<String> resetPassword(@PathVariable(name = "id") String Email) {
+	   try {
+	     service.resetPassword(Email);
+	     return ResponseEntity.ok("Password reset email sent successfully!");
+	   } catch (UserNotFoundException e) {
+	     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+	   } catch (Exception e) { // Catch other unexpected exceptions
+	     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Password reset failed. Please try again.");
+	   }
+	 }
 
 	
 	
