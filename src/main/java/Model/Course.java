@@ -24,12 +24,19 @@ public class Course {
 	private int id_c;
 	private String title ;
 	private String description ;
-	private float price;
+	private String price;
 	private String courseUrl;
 	
 	
 	
 
+	public Course(String title, String description, SUser user) {
+		super();
+		this.title = title;
+		this.description = description;
+		this.user = user;
+	}
+	
 	public String getCourseUrl() {
 		return courseUrl;
 	}
@@ -42,17 +49,20 @@ public class Course {
 	public void setUser(SUser user) {
 		this.user = user;
 	}
-	public float getPrice() {
+	
+	public String getPrice() {
 		return price;
 	}
-	public void setPrice(float price) {
+
+	public void setPrice(String price) {
 		this.price = price;
 	}
+
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "courses")
     private Set<SUser> users = new HashSet<>();
 	
-	
+	@JsonIgnore
 	@ManyToOne
     @JoinColumn(name = "user_id_")
     private SUser user;
@@ -87,16 +97,16 @@ public class Course {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Course(int id_c, String title, String description) {
-		super();
-		this.id_c = id_c;
-		this.title = title;
-		this.description = description;
-	}
 	
 	
-	public Course() {
-		super();
+	public Course() {}
+	
+	@SuppressWarnings("serial")
+	public static  class CourseNotFoundException extends RuntimeException {
+
+	    public CourseNotFoundException(String message) {
+	        super(message);
+	    }
 	}
 	
 	

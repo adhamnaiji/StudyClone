@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import Model.Course;
 import Model.SUser;
+import Model.Course.CourseNotFoundException;
 import Model.SUser.EmailAlreadyExistsException;
 import Model.SUser.InvalidPasswordException;
 import Model.SUser.UserNotFoundException;
@@ -95,9 +96,73 @@ public class SUserService {
     public List<Course> getCoursesCreatedByUser(SUser user) {
         return user.getOwncourses();
     }
-    /*
-    public List<Course> getUserOwnCourses(String mail){
-    	return userrepository.findUserOwnCourses(mail);
-    	
-    }*/
+    
+    
+    
+    public SUser updateUser(int userId, SUser updateduser) {
+        Optional<SUser> optionaluser = userrepository.findById(userId);
+        if (optionaluser.isPresent()) {
+            SUser user = optionaluser.get();
+            if(updateduser.getNom()!=null) {
+            	
+            	user.setNom(updateduser.getNom());
+            }
+if(updateduser.getPrenom()!=null) {
+            	
+    user.setPrenom(updateduser.getPrenom());
+
+            }
+
+if(updateduser.getAdresse()!=null) {
+	
+    user.setAdresse(updateduser.getAdresse());
+}
+
+if(updateduser.getDate_birth()!=null) {
+	
+    user.setDate_birth(updateduser.getDate_birth());
+}
+
+
+if(updateduser.getPhone_number()!=null) {
+	
+    user.setPhone_number(updateduser.getPhone_number());
+}
+
+if(updateduser.getPersonalWebsite()!=null) {
+	
+    user.setPersonalWebsite(updateduser.getPersonalWebsite());
+
+}
+
+if(updateduser.getDescriptionProfile()!=null) {
+	
+    user.setDescriptionProfile(updateduser.getDescriptionProfile());
+}
+
+if(updateduser.getFacebbok()!=null) {
+	
+    user.setFacebbok(updateduser.getFacebbok());
+}
+
+if(updateduser.getLinkedin()!=null) {
+	
+    user.setLinkedin(updateduser.getLinkedin());
+}
+if(updateduser.getInstagram()!=null) {
+	
+    user.setInstagram(updateduser.getInstagram());
+}
+            
+            
+           
+            return userrepository.save(user);
+        } else {
+            throw new UserNotFoundException("user not found with id: " + userId);
+        }
+    }
+    
+    
+    
+    
 }

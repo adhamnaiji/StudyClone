@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Model.Course;
+import Model.Course.CourseNotFoundException;
 import Model.SUser;
+import Model.SUser.EmailAlreadyExistsException;
 import repository.CourseRepository;
 
 @Service
@@ -39,6 +41,38 @@ public class CourseService {
 	  
 	  public List<Course> getCoursesCreatedByUser(SUser user) {
 	        return user.getOwncourses();
+	    }
+	  
+	  
+	  public Course AddCourse(Course course) {
+		 
+			return repository.save(course);
+		}
+	  
+	  
+	  
+	  public Course updateCourse(int courseId, Course updatedCourse) {
+	        Optional<Course> optionalCourse = repository.findById(courseId);
+	        if (optionalCourse.isPresent()) {
+	            Course course = optionalCourse.get();
+	            
+	            if(updatedCourse.getTitle()!=null) {
+	            course.setTitle(updatedCourse.getTitle());}
+	            
+	            if(updatedCourse.getDescription()!=null) {
+	            course.setDescription(updatedCourse.getDescription());}
+	            
+	            if(updatedCourse.getPrice()!=null) {
+	            course.setPrice(updatedCourse.getPrice());}
+	            
+	            if(updatedCourse.getCourseUrl()!=null) {
+	            course.setCourseUrl(updatedCourse.getCourseUrl());}
+	            
+	           
+	            return repository.save(course);
+	        } else {
+	            throw new CourseNotFoundException("Course not found with id: " + courseId);
+	        }
 	    }
 	
 }

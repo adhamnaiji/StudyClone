@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -97,6 +98,12 @@ public class SUserController {
 	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
 	    }
 	}
+	
+	//update profile user
+	 @PutMapping("user/edit/{userId}")
+	    public SUser updateUser(@PathVariable int userId, @RequestBody SUser updateduser) {
+	        return service.updateUser(userId, updateduser);
+	    }
 
 	
 	
