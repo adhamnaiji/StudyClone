@@ -1,6 +1,7 @@
 package Model;
 
 
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,7 +28,22 @@ public class SUser {
 	private int id;
 	private String nom ;
 	private String prenom ;
+	private String descriptionProfile;
+	private String adresse;
+	private String phone_number;
+	private Date date_birth;
+	private String personalWebsite;
+	private String Facebbok;
+	private String Instagram;
+	private String Linkedin;
 	
+	public SUser(String nom, String prenom, String email, String mdp) {
+		super();
+		this.nom = nom;
+		this.prenom = prenom;
+		this.email = email;
+		this.mdp = mdp;
+	}
 	private String email ;
 	@Column(nullable = false)
 	private String mdp;

@@ -1,19 +1,25 @@
 package controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import Model.Course;
 import Model.SUser;
+import Model.SUser.InvalidPasswordException;
+import Model.SUser.UserNotFoundException;
 import repository.CourseRepository;
 import service.CourseService;
 import service.SUserService;
@@ -65,9 +71,33 @@ public class SUserController {
         return courseservice.getCoursesCreatedByUser(user);
     }
 	
-	/*
-	@GetMapping("/user/ownCourses/{mail}")
-	public List<Course> GetUserOwnCourses(@PathVariable String mail) { 
-		return service.getUserOwnCourses(mail);
-	}*/
+	//add user 
+	@PostMapping("user/add")
+	public SUser addUser(@RequestBody SUser user ) {
+	    System.out.println("Received request to add employe: " + user);
+	    return service.AddUser(user);
+	}
+	
+	//login
+	@PostMapping("user/login")
+	public ResponseEntity<Object> login(@RequestBody Map<String, String> requestBody) {
+	    String email = requestBody.get("email");
+	    String mdp = requestBody.get("mdp");
+
+	    try {
+	        Optional<SUser> user = service.loginUser(email, mdp);
+	        if (user.isPresent()) {
+	            return ResponseEntity.ok("logged");  
+	        } else {
+	            return ResponseEntity.internalServerError().build();
+	        }
+	    } catch (UserNotFoundException e) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+	    } catch (InvalidPasswordException e) {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+	    }
+	}
+
+	
+	
 }

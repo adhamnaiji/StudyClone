@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import Model.Course;
 import Model.SUser;
+import Model.SUser.EmailAlreadyExistsException;
+import Model.SUser.InvalidPasswordException;
+import Model.SUser.UserNotFoundException;
 import repository.CourseRepository;
 import repository.SUserRepository;
 
@@ -34,7 +37,35 @@ public class SUserService {
 	public List<SUser> findAllUsers() {
         return userrepository.findAllUsers();
     }
+	
+	 public SUser AddUser(SUser user) {
+		  if (userrepository.existsByEmail(user.getEmail())) {
+		        throw new EmailAlreadyExistsException("Email address already in use. Please choose a different email.");
+		    }
+			return userrepository.save(user);
+		}
 
+	 
+	 
+	 public Optional<SUser> loginUser(String email, String mdp) throws UserNotFoundException, InvalidPasswordException {
+
+		    Optional<SUser> userOptional = userrepository.findByEmail(email);
+
+		    if (userOptional.isEmpty()) {
+		        throw new UserNotFoundException("Email not found. Please check your email address and try again.");
+		    }
+		    
+		    SUser user = userOptional.get();
+		    if (!mdp.equals(user.getMdp())) {
+		    	System.out.println("pasword mdp : "+mdp);
+		    	System.out.println("pasword user : "+user.getMdp());
+		        throw new InvalidPasswordException("Incorrect password. Please try again.");
+		    }
+
+		    return userOptional;
+		}
+
+	 
 	
     public void addCourseToUser(String mail, int courseId) {
         SUser user = userrepository.findByEmail(mail)

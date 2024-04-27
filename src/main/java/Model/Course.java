@@ -24,10 +24,30 @@ public class Course {
 	private int id_c;
 	private String title ;
 	private String description ;
+	private float price;
+	private String courseUrl;
 	
 	
 	
 
+	public String getCourseUrl() {
+		return courseUrl;
+	}
+	public void setCourseUrl(String courseUrl) {
+		this.courseUrl = courseUrl;
+	}
+	public SUser getUser() {
+		return user;
+	}
+	public void setUser(SUser user) {
+		this.user = user;
+	}
+	public float getPrice() {
+		return price;
+	}
+	public void setPrice(float price) {
+		this.price = price;
+	}
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "courses")
     private Set<SUser> users = new HashSet<>();
@@ -36,6 +56,8 @@ public class Course {
 	@ManyToOne
     @JoinColumn(name = "user_id_")
     private SUser user;
+	
+	
 	
 	
 
@@ -71,6 +93,8 @@ public class Course {
 		this.title = title;
 		this.description = description;
 	}
+	
+	
 	public Course() {
 		super();
 	}
