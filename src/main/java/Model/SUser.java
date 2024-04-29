@@ -35,7 +35,7 @@ public class SUser {
 	private String descriptionProfile;
 	private String adresse;
 	private String phone_number;
-	private Date date_birth;
+	private String date_birth;
 	private String personalWebsite;
 	private String Facebbok;
 	private String Instagram;
@@ -143,10 +143,11 @@ public class SUser {
 	public void setPhone_number(String phone_number) {
 		this.phone_number = phone_number;
 	}
-	public Date getDate_birth() {
+	
+	public String getDate_birth() {
 		return date_birth;
 	}
-	public void setDate_birth(Date date_birth) {
+	public void setDate_birth(String date_birth) {
 		this.date_birth = date_birth;
 	}
 	public String getPersonalWebsite() {
@@ -203,6 +204,10 @@ public class SUser {
 	    public EmailAlreadyExistsException(String message) {
 	        super(message);
 	    }
+	}
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	

@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,16 +29,29 @@ public class Course {
 	private String price;
 	private String courseUrl;
 	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "categorie")
+	private CategorieCourse categorie;
+	
 	
 	
 
-	public Course(String title, String description, SUser user) {
+	public Course(String title, String description,CategorieCourse categorie ,SUser user) {
 		super();
 		this.title = title;
 		this.description = description;
+		this.categorie=categorie;
 		this.user = user;
 	}
 	
+	public CategorieCourse getCategorie() {
+		return categorie;
+	}
+
+	public void setCategorie(CategorieCourse categorie) {
+		this.categorie = categorie;
+	}
+
 	public String getCourseUrl() {
 		return courseUrl;
 	}
@@ -66,6 +81,8 @@ public class Course {
 	@ManyToOne
     @JoinColumn(name = "user_id_")
     private SUser user;
+	
+	
 	
 	
 	

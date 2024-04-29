@@ -7,6 +7,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import Model.CategorieCourse;
 import Model.Course;
 import Model.Course.CourseNotFoundException;
 import Model.SUser;
@@ -15,6 +16,8 @@ import repository.CourseRepository;
 
 @Service
 public class CourseService {
+	@Autowired
+	private SUserService userservice;
 
 	@Autowired
     private CourseRepository repository;
@@ -43,11 +46,13 @@ public class CourseService {
 	        return user.getOwncourses();
 	    }
 	  
+	  public Course AddCourse(Course course,int userid) {
+	        Course courset = new Course(course.getTitle(), course.getDescription(), course.getCategorie(),course.getUser());
+	        SUser user=userservice.findByID(userid);
+	        courset.setUser(user);
+	        return repository.save(courset);
+	    }
 	  
-	  public Course AddCourse(Course course) {
-		 
-			return repository.save(course);
-		}
 	  
 	  
 	  
@@ -74,5 +79,17 @@ public class CourseService {
 	            throw new CourseNotFoundException("Course not found with id: " + courseId);
 	        }
 	    }
+	  
+	  
+	  public SUser getUserByCourseId(int courseId) {
+		  List<Course> Owncourses = this.getAllCourses();
+		  System.out.println(Owncourses);
+		    for (Course course : Owncourses) {
+		        if (course.getId_c() == courseId) {
+		            return course.getUser();
+		        }
+		    }
+		    return null; // Course with given ID not found
+		}
 	
 }

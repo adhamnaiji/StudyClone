@@ -88,7 +88,7 @@ public class SUserController {
 	    try {
 	        Optional<SUser> user = service.loginUser(email, mdp);
 	        if (user.isPresent()) {
-	            return ResponseEntity.ok("logged");  
+	            return ResponseEntity.ok(user);  
 	        } else {
 	            return ResponseEntity.internalServerError().build();
 	        }
@@ -97,6 +97,7 @@ public class SUserController {
 	    } catch (InvalidPasswordException e) {
 	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
 	    }
+	    
 	}
 	
 	//update profile user

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import Model.CategorieCourse;
 import Model.Course;
 import Model.SUser;
 import service.CourseService;
@@ -37,10 +38,11 @@ public class CourseController {
     }
 	
 	//add course
-		@PostMapping("add/course")
-		public Course addCourse(@RequestBody Course course ) {
+		@PostMapping("add/course/{id_u}")
+		public Course addCourse(@RequestBody Course course,@PathVariable(name = "id_u") int id_u ) {
+			
 		    //System.out.println("Received request to add employe: " + user);
-		    return service.AddCourse(course);
+		    return service.AddCourse(course,id_u);
 		}
 	
 	
@@ -59,6 +61,11 @@ public class CourseController {
 	 @DeleteMapping("/course/{id}")
 	 public  void  DeletCourseByID(@PathVariable int id){
 		  service.DeleteCourseById(id);
+	 }
+	 
+	 @GetMapping("owner/course/{id_c}")
+	 public SUser GetOwnerCourseByID_Course(@PathVariable int id_c) {
+		 return service.getUserByCourseId(id_c);
 	 }
 	 
 	 
