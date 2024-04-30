@@ -36,12 +36,14 @@ public class Course {
 	
 	
 
-	public Course(String title, String description,CategorieCourse categorie ,SUser user) {
+	public Course(String title, String description,CategorieCourse categorie ,String price,String courseUrl, SUser user) {
 		super();
 		this.title = title;
 		this.description = description;
 		this.categorie=categorie;
 		this.user = user;
+		this.price=price;
+		this.courseUrl=courseUrl;
 	}
 	
 	public CategorieCourse getCategorie() {

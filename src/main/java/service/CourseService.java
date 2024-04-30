@@ -47,7 +47,7 @@ public class CourseService {
 	    }
 	  
 	  public Course AddCourse(Course course,int userid) {
-	        Course courset = new Course(course.getTitle(), course.getDescription(), course.getCategorie(),course.getUser());
+	        Course courset = new Course(course.getTitle(), course.getDescription(), course.getCategorie(),course.getPrice(),course.getCourseUrl(),course.getUser());
 	        SUser user=userservice.findByID(userid);
 	        courset.setUser(user);
 	        return repository.save(courset);
